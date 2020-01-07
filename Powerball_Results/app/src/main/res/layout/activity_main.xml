@@ -3,76 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/title"
+    <FrameLayout
+        android:id="@+id/fragmentLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="@dimen/title_size"
-        android:textColor="@android:color/black"
-        android:text="@string/historic_results_title"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="visible" />
 
-    <RadioGroup
-        android:id="@+id/rgFilters"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/rbAll"
-            android:text="All"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"/>
-
-        <RadioButton
-            android:id="@+id/rbLimit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="Limit"/>
-
-        <RadioButton
-            android:id="@+id/rbDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="Date"/>
-
-        <EditText
-            android:id="@+id/filterData"
-            android:visibility="gone"
-            android:maxLength="10"
+        <Button
+            android:id="@+id/btnHistoricResults"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"/>
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:text="Historic Results" />
 
         <Button
-            android:text="Load"
-            android:onClick="chooseFilter"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnWinsHistory"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"/>
-    </RadioGroup>
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/results"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-    </ScrollView>
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:text="Wins History" />
+    </LinearLayout>
 </LinearLayout>

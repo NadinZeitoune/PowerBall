@@ -5,14 +5,17 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -40,13 +43,11 @@ public class HistoricResultsFragment extends Fragment {
     private RadioButton rbLimit;
     private RadioButton rbDate;
     private EditText filterData;
-
-    private OnFragmentInteractionListener mListener;
+    private Button btnLoad;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_historic_results, container, false);
-
         layout = view.findViewById(R.id.results);
         progressBar = view.findViewById(R.id.progress_bar);
 
@@ -55,6 +56,15 @@ public class HistoricResultsFragment extends Fragment {
         rbLimit = view.findViewById(R.id.rbLimit);
         rbDate = view.findViewById(R.id.rbDate);
         filterData = view.findViewById(R.id.filterData);
+        btnLoad = view.findViewById(R.id.btnLoad);
+
+        // Submit filter choice
+        btnLoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseFilter(v);
+            }
+        });
 
         // Show/ hide the EditText with the right hint.
         rgFilter.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -94,14 +104,13 @@ public class HistoricResultsFragment extends Fragment {
             }
         });
 
-        // Show all the results.
-        getAndShowResults("all", "");
-
         return view;
     }
 
-    public interface OnFragmentInteractionListener {
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        chooseFilter(null);
     }
 
     private void showKeyboard(boolean isShow, EditText editText) {
@@ -126,6 +135,7 @@ public class HistoricResultsFragment extends Fragment {
     private void getAndShowResults(final String action, final String filter) {
         // Show ProgressBar.
         progressBar.setVisibility(View.VISIBLE);
+        btnLoad.setEnabled(false);
 
         // Get the requested results.
         new AsyncTask<Void, Void, JSONArray>() {
@@ -158,11 +168,11 @@ public class HistoricResultsFragment extends Fragment {
 
                 // Hide the progressBar.
                 progressBar.setVisibility(View.GONE);
+                btnLoad.setEnabled(true);
             }
         }.execute();
     }
 
-    // TODO: change the look of the layout. Maybe to use TableLayout & TableRow.
     // Creating the view with all the data of the result.
     private View createView(JSONObject object) throws JSONException {
         // Create the containing layout.
@@ -207,6 +217,7 @@ public class HistoricResultsFragment extends Fragment {
     public void chooseFilter(View view) {
         // Remove keyboard from screen.
         showKeyboard(false, null);
+
 
         // Check that the data is answering all the requirements.
         boolean dataOK = false;
